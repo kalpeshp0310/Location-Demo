@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Hot Star Demo</string>
+    <string name="nearby_places">Nearby Places</string>
+    <string name="gms_api_key">AIzaSyAvDEOm4edZF2Uc_uj9ISTjU0rDQK1KTpU</string>
+</resources>
