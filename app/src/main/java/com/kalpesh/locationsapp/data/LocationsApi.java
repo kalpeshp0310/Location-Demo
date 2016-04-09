@@ -5,9 +5,9 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kalpesh.locationsapp.Constants;
 import com.kalpesh.locationsapp.data.model.BaseException;
 import com.kalpesh.locationsapp.data.model.NearbySearchResponse;
-import com.kalpesh.locationsapp.Constants;
 import com.kalpesh.locationsapp.model.Location;
 import com.kalpesh.locationsapp.utils.ListUtils;
 
@@ -34,7 +34,7 @@ public class LocationsApi {
 
     public LocationsApi(Context context) {
         this.context = context;
-        gson = new GsonBuilder().serializeNulls().create();
+        gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().serializeNulls().create();
     }
 
     public Observable<Location> getLastKnownLocation() {
