@@ -22,7 +22,7 @@ import butterknife.OnClick;
 /**
  * Created by kalpeshpatel on 06/04/16.
  */
-public class PlaceDetailActivity extends AppCompatActivity implements PlaceDetailPresenter.PlaceDetailView {
+public class PlaceDetailActivity extends AppCompatActivity {
 
     private static final String KEY_PLACE = "KEY_PLACE";
 
@@ -39,7 +39,6 @@ public class PlaceDetailActivity extends AppCompatActivity implements PlaceDetai
 
 
     private Place place;
-    private PlaceDetailPresenter presenter;
     private Navigator navigator;
 
 
@@ -65,9 +64,7 @@ public class PlaceDetailActivity extends AppCompatActivity implements PlaceDetai
             place = savedInstanceState.getParcelable(KEY_PLACE);
 
         navigator = new Navigator();
-
-        presenter = new PlaceDetailPresenter(place);
-        presenter.attachView(this);
+        showPlace(place);
     }
 
     @Override
@@ -92,19 +89,14 @@ public class PlaceDetailActivity extends AppCompatActivity implements PlaceDetai
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        presenter.detachView();
-    }
 
     @OnClick(R.id.btn_map)
     void onlocateClicked() {
-        presenter.onLocateClicked();
+        navigator.navigateToPlaceLocationMap(this, place);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
-    @Override
-    public void showPlace(Place place) {
+    private void showPlace(Place place) {
         Glide.with(this)
                 .load(place.imageUrl)
                 .into(placeImageView);
@@ -115,26 +107,5 @@ public class PlaceDetailActivity extends AppCompatActivity implements PlaceDetai
             mapBtn.show();
         else
             mapBtn.hide();
-    }
-
-    @Override
-    public void showPlaceLocation(Place place) {
-        navigator.navigateToPlaceLocationMap(this, place);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
-    }
-
-    @Override
-    public void setShowLoading(boolean show) {
-
-    }
-
-    @Override
-    public void showErrorMessage(String message) {
-
     }
 }
