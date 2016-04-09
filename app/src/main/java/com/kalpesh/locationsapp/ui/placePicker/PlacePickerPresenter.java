@@ -24,14 +24,14 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by kalpeshpatel on 06/04/16.
  */
-public class MapPresenter implements BasePresenter<MapPresenter.MapView> {
+public class PlacePickerPresenter implements BasePresenter<PlacePickerPresenter.MapView> {
     private MapView view;
     private CompositeSubscription compositeSubscription;
     private Subscription locationUpdateSubscription;
     private ReactiveLocationProvider locationProvider;
     private LocationsApi locationsApi;
 
-    public MapPresenter() {
+    public PlacePickerPresenter() {
         compositeSubscription = new CompositeSubscription();
     }
 

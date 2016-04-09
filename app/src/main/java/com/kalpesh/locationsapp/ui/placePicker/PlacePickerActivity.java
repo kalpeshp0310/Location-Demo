@@ -23,7 +23,7 @@ import com.kalpesh.locationsapp.navigation.Navigator;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, MapPresenter.MapView {
+public class PlacePickerActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, PlacePickerPresenter.MapView {
 
     public static final int DEFAULT_ZOOM_LEVEL = 15;
     private static final int REQUEST_CHECK_SETTINGS = 1001;
@@ -31,7 +31,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-    private MapPresenter mapPresenter;
+    private PlacePickerPresenter placePickerPresenter;
     private GoogleMap googleMap;
     private Marker currentLocationMarker;
     private Navigator navigator;
@@ -49,9 +49,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        mapPresenter = new MapPresenter();
+        placePickerPresenter = new PlacePickerPresenter();
         navigator = new Navigator();
-        mapPresenter.attachView(this);
+        placePickerPresenter.attachView(this);
     }
 
     @Override
@@ -62,11 +62,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 switch (resultCode) {
                     case RESULT_OK:
                         // All required changes were successfully made
-                        mapPresenter.onLocationSettingEnabled();
+                        placePickerPresenter.onLocationSettingEnabled();
                         break;
                     case RESULT_CANCELED:
                         // The user was asked to change settings, but chose not to
-                        mapPresenter.onLocationSettingCanceled();
+                        placePickerPresenter.onLocationSettingCanceled();
                         break;
                     default:
                         break;
@@ -78,18 +78,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mapPresenter.detachView();
+        placePickerPresenter.detachView();
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
-        mapPresenter.onMapReady();
+        placePickerPresenter.onMapReady();
     }
 
     @Override
     public void onMapClick(LatLng latLng) {
-        mapPresenter.onLocationSelected(latLng);
+        placePickerPresenter.onLocationSelected(latLng);
     }
 
     @Override
@@ -120,7 +120,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             status.startResolutionForResult(this, REQUEST_CHECK_SETTINGS);
         } catch (IntentSender.SendIntentException e) {
             //Error opening settings activity.
-            mapPresenter.onLocationSettingsError();
+            placePickerPresenter.onLocationSettingsError();
         }
     }
 
